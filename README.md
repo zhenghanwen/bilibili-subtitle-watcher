@@ -1,6 +1,6 @@
 # bilibili-subtitle-watcher
 
-通过 [Tabbit Browser](https://www.tabbit.com/) 复用本机 B站登录态，批量发现视频并下载字幕，将有字幕的视频导出为 Obsidian 友好的 Markdown、SRT、TXT。没有字幕的视频会自动跳过，只记录状态。
+通过 [Tabbit Browser](https://www.tabbit.com/) 复用本机 B站登录态，批量发现视频并下载字幕，将有字幕的视频导出为 Markdown 文档。没有字幕的视频会自动跳过，只记录状态。
 
 它同时提供：
 
@@ -13,7 +13,7 @@
 - 扫描 B站关注动态，包括 UP 主投稿和动态中转发的视频。
 - 扫描指定收藏夹。
 - 自动选择中文字幕轨，兼容 AI 字幕。
-- 有字幕才导出 Markdown/SRT/TXT；无字幕不生成空文档。
+- 有字幕才导出 Markdown；无字幕不生成空文档。
 - 本地状态库去重、失败重试、无字幕延迟复查。
 - 支持多 P 视频。
 - 不保存 Cookie；登录态由 Tabbit 浏览器持有。
@@ -95,7 +95,7 @@ bili-sub run
 bili-sub list
 ```
 
-## 配置
+## 配置 Markdown 保存位置
 
 复制示例配置：
 
@@ -103,18 +103,11 @@ bili-sub list
 Copy-Item config.example.json bili-sub.config.json
 ```
 
-配置查找顺序：
-
-1. `--config <path>`
-2. `BILI_SUB_CONFIG` 环境变量
-3. 当前目录的 `bili-sub.config.json`
-4. `~/.bili-sub/config.json`
-
-常用配置：
+把 `outputDir` 改成你想保存 Markdown 的目录：
 
 ```json
 {
-  "outputDir": "./output",
+  "outputDir": "D:/Documents/B站字幕",
   "dataDir": "./data",
   "tabbitCli": "",
   "maxPerRun": 3,
@@ -127,20 +120,31 @@ Copy-Item config.example.json bili-sub.config.json
 }
 ```
 
+也可以在每次运行时临时指定：
+
+```bash
+bili-sub video BV1dz4164ELm --output "D:/Documents/B站字幕"
+```
+
+配置查找顺序：
+
+1. `--config <path>`
+2. `BILI_SUB_CONFIG` 环境变量
+3. 当前目录的 `bili-sub.config.json`
+4. `~/.bili-sub/config.json`
+
 `tabbitCli` 留空会自动探测；也可以设置环境变量 `TABBIT_CLI`。
 
 ## 输出示例
 
-每个有字幕的视频生成：
+每个有字幕的视频只生成一个 Markdown 文件：
 
 ```text
 output/
-├── 2026-08-29-视频标题.md
-├── 2026-08-29-视频标题.srt
-└── 2026-08-29-视频标题.txt
+└── 2026-08-29-视频标题.md
 ```
 
-Markdown 包含 YAML frontmatter、UP 主、视频链接、发布时间、视频简介和带时间戳的字幕正文，可直接放入 Obsidian 库。
+Markdown 包含 YAML frontmatter、UP 主、视频链接、发布时间、视频简介和带时间戳的字幕正文。
 
 ## 定时运行
 

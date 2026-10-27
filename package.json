@@ -1,7 +1,7 @@
 {
   "name": "bilibili-subtitle-watcher",
   "version": "0.1.0",
-  "description": "Use Tabbit Browser to collect Bilibili subtitles and export Obsidian Markdown/SRT/TXT notes.",
+  "description": "Use Tabbit Browser to collect Bilibili subtitles and export Markdown documents.",
   "type": "module",
   "main": "scripts/bili-sub.mjs",
   "bin": {
@@ -17,7 +17,7 @@
   "keywords": [
     "bilibili",
     "subtitle",
-    "obsidian",
+    "markdown",
     "tabbit",
     "skill",
     "cli"

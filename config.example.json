@@ -8,12 +8,13 @@
   "includeAllPages": true,
   "delayMs": 2200,
   "timeoutMs": 180000,
-  "writeSrt": true,
-  "writeTxt": true,
-  "writeRawJson": false,
   "sources": {
     "followingFeed": true,
     "favoriteFolders": []
   },
-  "noSubtitleRetryHours": [24, 72, 168]
+  "noSubtitleRetryHours": [
+    24,
+    72,
+    168
+  ]
 }
