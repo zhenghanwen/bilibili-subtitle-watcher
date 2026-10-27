@@ -45,9 +45,6 @@ const DEFAULT_CONFIG = {
   includeAllPages: true,
   delayMs: 2200,
   timeoutMs: 180000,
-  writeSrt: true,
-  writeTxt: true,
-  writeRawJson: false,
   sources: {
     followingFeed: true,
     favoriteFolders: []
@@ -296,18 +293,13 @@ function quoteYaml(value) {
   return JSON.stringify(String(value ?? ''));
 }
 
-function formatStamp(seconds, srt = false) {
+function formatStamp(seconds) {
   const safe = Math.max(0, Number(seconds) || 0);
   const msTotal = Math.floor(safe * 1000);
   const h = Math.floor(msTotal / 3600000);
   const m = Math.floor((msTotal % 3600000) / 60000);
   const s = Math.floor((msTotal % 60000) / 1000);
-  const ms = msTotal % 1000;
-  const hh = String(h).padStart(2, '0');
-  const mm = String(m).padStart(2, '0');
-  const ss = String(s).padStart(2, '0');
-  const mmm = String(ms).padStart(3, '0');
-  return srt ? `${hh}:${mm}:${ss},${mmm}` : `${hh}:${mm}:${ss}`;
+  return [h, m, s].map((value) => String(value).padStart(2, '0')).join(':');
 }
 
 function buildNote(result) {
@@ -361,31 +353,6 @@ function buildNote(result) {
   return lines.join('\n');
 }
 
-function buildText(result) {
-  return result.pageResults
-    .filter((item) => item.status === 'done')
-    .map((item) => {
-      const header = item.page.page > 1 || result.meta.pages.length > 1 ? `P${item.page.page} ${item.page.part}`.trim() + '\n\n' : '';
-      return header + item.body.map((line) => String(line.content || '').trim()).filter(Boolean).join('\n');
-    })
-    .join('\n\n');
-}
-
-function buildSrt(result) {
-  let index = 1;
-  const blocks = [];
-  for (const item of result.pageResults.filter((page) => page.status === 'done')) {
-    if (result.meta.pages.length > 1) blocks.push(`\nP${item.page.page} ${item.page.part}`.trim() + '\n');
-    for (const line of item.body) {
-      const text = String(line.content || '').trim();
-      if (!text) continue;
-      blocks.push(`${index}\n${formatStamp(line.from, true)} --> ${formatStamp(line.to, true)}\n${text}\n`);
-      index += 1;
-    }
-  }
-  return blocks.join('\n');
-}
-
 function uniquePath(filePath) {
   if (!fs.existsSync(filePath)) return filePath;
   const ext = path.extname(filePath);
@@ -424,21 +391,6 @@ function persistResult(config, result, source) {
     const mdPath = uniquePath(path.join(config.outputDir, `${base}.md`));
     fs.writeFileSync(mdPath, buildNote(result), 'utf8');
     output.notePath = mdPath;
-    if (config.writeTxt) {
-      const txtPath = uniquePath(path.join(config.outputDir, `${base}.txt`));
-      fs.writeFileSync(txtPath, buildText(result), 'utf8');
-      output.txtPath = txtPath;
-    }
-    if (config.writeSrt) {
-      const srtPath = uniquePath(path.join(config.outputDir, `${base}.srt`));
-      fs.writeFileSync(srtPath, buildSrt(result), 'utf8');
-      output.srtPath = srtPath;
-    }
-    if (config.writeRawJson) {
-      const jsonPath = uniquePath(path.join(config.outputDir, `${base}.subtitle.json`));
-      writeJson(jsonPath, result);
-      output.rawPath = jsonPath;
-    }
     output.status = failedPages.length ? 'partial_failed' : 'done';
   } else if (failedPages.length && !noSubtitlePages.length) {
     output.status = 'failed';
@@ -548,7 +500,7 @@ function printHelp() {
 
 常用选项：
   --config <path>          指定 config.json
-  --output <dir>           指定 Markdown/SRT/TXT 输出目录
+  --output <dir>           指定 Markdown 输出目录
   --limit <n>              单次最多处理视频数
   --all-pages              处理多 P 视频的所有分 P
   --force                  忽略已完成状态重新处理
@@ -573,7 +525,8 @@ const args = parseArgs(process.argv.slice(2));
 const command = args._[0] || 'help';
 if (args.help || command === 'help') {
   printHelp();
-} else {
+}
+else {
   const config = loadConfig(args);
   if (command === 'doctor') commandDoctor(config);
   else if (command === 'login') commandLogin(config);
