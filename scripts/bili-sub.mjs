@@ -232,7 +232,7 @@ function shouldSkipBvid(config, state, bvid, force, retryNoSubtitle) {
   if (item.status === 'done') return true;
   if (item.status === 'no_subtitle_final') return true;
   if (item.status === 'no_subtitle' && !retryNoSubtitle) {
-    const intervals = config.noSubtitleRetryHours || [24, 72, 8, 168];
+    const intervals = config.noSubtitleRetryHours || [24, 72, 168];
     const attempt = item.noSubtitleRetries || 0;
     if (attempt >= intervals.length) return true;
     const waitHours = intervals[attempt] || intervals[intervals.length - 1];
