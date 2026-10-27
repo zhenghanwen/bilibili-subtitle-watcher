@@ -57,7 +57,7 @@ const subtitleData = await response.json();
 ## 视频发现
 
 - 关注动态：递归遍历动态 JSON，提取普通投稿、动态卡片、转发/附加内容中的 BVID。
-- 收藏夹：按收藏夹 `media_id` 分页读取 `medias`。
+- 收藏夹：按 `media_id` 分页读取 `medias`。
 - 手动视频：直接接受 BVID。
 - 所有候选统一规范化为 HTTPS 视频 URL，避免 `bilibili://` 协议导致 Playwright 导航失败。
 
