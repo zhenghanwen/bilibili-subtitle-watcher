@@ -1,0 +1,12 @@
+node_modules/
+config.json
+bili-sub.config.json
+data/state.json
+data/last-run.json
+output/
+logs/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
