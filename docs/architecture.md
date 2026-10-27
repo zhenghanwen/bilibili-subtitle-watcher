@@ -15,7 +15,7 @@ bili-sub CLI（Node.js，零运行时依赖）
         │       ├─ 视频页：读取视频详情和字幕轨
         │       └─ Node 网络层：下载字幕 CDN JSON
         ├─ 去重、限流、失败重试、无字幕复查
-        └─ 写出 Markdown / SRT / TXT
+        └─ 写出 Markdown 文档
 ```
 
 ## 关键模块
@@ -93,20 +93,14 @@ https://www.bilibili.com/video/<BVID>
 
 ## 输出格式
 
-### Markdown
+只输出 Markdown：
 
 - YAML frontmatter
 - 视频标题、UP 主、URL、发布日期、字幕语言
 - 视频简介
 - 按时间戳排列的字幕正文
 
-### SRT
-
-标准序号、时间轴和字幕文本，可直接导入剪辑软件。
-
-### TXT
-
-去掉时间轴的纯文本，适合喂给总结、知识库或 RAG。
+保存位置由配置项 `outputDir` 或命令行参数 `--output` 决定。
 
 ## 安全边界
 

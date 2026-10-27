@@ -38,7 +38,7 @@ bili-sub doctor
 bili-sub video BV1dz4164ELm
 ```
 
-成功后会在输出目录生成 Markdown、SRT、TXT。
+成功后会在输出目录生成一个 Markdown 文件。
 
 ## 4. 扫描关注动态
 
@@ -70,7 +70,7 @@ bili-sub favorites --folder 123456789 --folder 987654321
 Copy-Item config.example.json bili-sub.config.json
 ```
 
-编辑 `bili-sub.config.json`，确认输出目录、关注动态和收藏夹设置，然后手动运行：
+编辑 `bili-sub.config.json`，把 `outputDir` 改成 Markdown 保存目录，并确认关注动态和收藏夹设置，然后手动运行：
 
 ```bash
 bili-sub run

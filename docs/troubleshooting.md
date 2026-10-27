@@ -111,19 +111,13 @@ bili-sub video BV1dz4164ELm --force
 
 ## 查看调试输出
 
-开启原始字幕 JSON：
-
-```json
-"writeRawJson": true
-```
-
-或运行单视频：
+优先运行单个视频并观察终端输出：
 
 ```bash
 bili-sub video BV1xxxxxxxxxx --force
 ```
 
-正常后关闭 `writeRawJson`，避免堆积文件。
+必要时临时把 `maxPerRun` 改成 1，并适当增大 `delayMs`。
 
 ## 仍无法解决
 
