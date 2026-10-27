@@ -129,7 +129,7 @@ function loadConfig(args) {
   config.outputDir = resolveProjectPath(config.outputDir, configDir);
   config.statePath = path.join(config.dataDir, 'state.json');
   config.logPath = path.join(config.dataDir, 'last-run.json');
-  if (process.env.BILI_SUB_OUTPUT_DIR) config.outputDir = path.resolve(process.env.BILI_SUB_CONFIG);
+  if (process.env.BILI_SUB_OUTPUT_DIR) config.outputDir = path.resolve(process.env.BILI_SUB_OUTPUT_DIR);
   if (args.output) config.outputDir = path.resolve(args.output);
   if (args.folders?.length) config.sources.favoriteFolders = args.folders;
   if (typeof args.limit === 'number' && Number.isFinite(args.limit)) config.maxPerRun = args.limit;
@@ -232,7 +232,7 @@ function shouldSkipBvid(config, state, bvid, force, retryNoSubtitle) {
   if (item.status === 'done') return true;
   if (item.status === 'no_subtitle_final') return true;
   if (item.status === 'no_subtitle' && !retryNoSubtitle) {
-    const intervals = config.noSubtitleRetryHours || [24, 72, 168];
+    const intervals = config.noSubtitleRetryHours || [24, 72, 8, 168];
     const attempt = item.noSubtitleRetries || 0;
     if (attempt >= intervals.length) return true;
     const waitHours = intervals[attempt] || intervals[intervals.length - 1];
@@ -251,7 +251,7 @@ function formatDate(ts) {
 }
 
 function safeName(value, fallback = 'bilibili-subtitle') {
-  return String(value || fallback).replace(/[\/:*?"<>|-]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 120) || fallback;
+  return String(value || fallback).replace(/[\\/:*?"<>|-]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 120) || fallback;
 }
 
 function quoteYaml(value) {
