@@ -2,11 +2,9 @@
 
 ## 输出内容
 
-有字幕的视频生成：
+有字幕的视频只生成一个 Markdown 文件：
 
-- `YYYY-MM-DD-视频标题.md`：Obsidian Markdown，含 YAML frontmatter、视频信息、简介、带时间戳字幕。
-- `YYYY-MM-DD-视频标题.srt`：标准 SRT 字幕。
-- `YYYY-MM-DD-视频标题.txt`：纯字幕文本。
+- `YYYY-MM-DD-视频标题.md`：含 YAML frontmatter、视频信息、简介、带时间戳字幕。
 
 没有字幕的视频不生成文件，只记录状态。
 
@@ -35,7 +33,7 @@ Copy-Item config.example.json bili-sub.config.json
 
 常用字段：
 
-- `outputDir`：文档输出目录。
+- `outputDir`：Markdown 文件保存目录。
 - `dataDir`：状态库目录。
 - `tabbitCli`：留空自动探测；也可设置 `TABBIT_CLI`。
 - `sources.followingFeed`：扫描关注动态。

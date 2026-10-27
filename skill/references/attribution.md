@@ -1,6 +1,6 @@
 # 来源与许可证
 
-本 Skill 的字幕链路参考并复用了 GitHub 项目 `haixiong1997/Bilibili-Obsidian-Clipper` 的核心思路：通过 BVID 获取视频详情和分 P，通过播放器接口读取字幕轨，选择字幕轨后下载字幕 JSON，并转换为 Obsidian 友好的 Markdown/SRT/TXT。
+本 Skill 的字幕链路参考并复用了 GitHub 项目 `haixiong1997/Bilibili-Obsidian-Clipper` 的核心思路：通过 BVID 获取视频详情和分 P，通过播放器接口读取字幕轨，选择字幕轨后下载字幕 JSON，并转换为 Markdown 文档。
 
 源仓库：<https://github.com/haixiong1997/Bilibili-Obsidian-Clipper>
 

@@ -9,7 +9,7 @@ bili-sub.mjs
   │    ├─ 页面上下文：B站登录态、视频详情、播放器字幕轨
   │    └─ Node 网络层：下载字幕 CDN JSON
   ├─ 去重、限流、状态更新、重试
-  └─ 生成 Markdown / SRT / TXT
+  └─ 生成 Markdown 文档
 ```
 
 ## Tabbit 职责
@@ -57,7 +57,7 @@ const subtitleData = await response.json();
 ## 视频发现
 
 - 关注动态：递归遍历动态 JSON，提取普通投稿、动态卡片、转发/附加内容中的 BVID。
-- 收藏夹：按 `media_id` 分页读取 `medias`。
+- 收藏夹：按收藏夹 `media_id` 分页读取 `medias`。
 - 手动视频：直接接受 BVID。
 - 所有候选统一规范化为 HTTPS 视频 URL，避免 `bilibili://` 协议导致 Playwright 导航失败。
 

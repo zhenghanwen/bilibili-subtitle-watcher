@@ -1,11 +1,11 @@
 ---
 name: bilibili-subtitle-watcher
-description: 使用 Tabbit 浏览器登录态批量获取哔哩哔哩/B站视频字幕，并将有字幕的视频导出为 Obsidian 友好的 Markdown、SRT、TXT。用于用户要求抓取 B站字幕、监控关注 UP 主新视频/转发视频、扫描指定收藏夹、定时归档字幕、跳过无字幕视频、按 BVID 导出字幕时。
+description: 使用 Tabbit 浏览器登录态批量获取哔哩哔哩/B站视频字幕，并将有字幕的视频导出为 Markdown 文档。用于用户要求抓取 B站字幕、监控关注 UP 主新视频/转发视频、扫描指定收藏夹、定时归档字幕、跳过无字幕视频、按 BVID 导出字幕时。
 ---
 
 # B站字幕定时采集
 
-通过本机 Tabbit 浏览器复用 B站登录态，不要求用户把 Cookie 写入配置。CLI 负责发现视频、去重、限流、判断是否有字幕、生成 Obsidian Markdown；无字幕视频只记录状态，不生成正文文档。
+通过本机 Tabbit 浏览器复用 B站登录态，不要求用户把 Cookie 写入配置。CLI 负责发现视频、去重、限流、判断是否有字幕、生成 Markdown 文档；无字幕视频只记录状态，不生成正文文档。
 
 ## 快速流程
 
@@ -58,7 +58,7 @@ node scripts/bili-sub.mjs run
 
 可将仓库中的 `config.example.json` 复制为 `bili-sub.config.json`。关键配置：
 
-- `outputDir`：Markdown/SRT/TXT 输出目录。
+- `outputDir`：Markdown 文件保存目录。
 - `tabbitCli`：留空时自动探测；也可用 `TABBIT_CLI` 指定。
 - `sources.followingFeed`：是否扫描关注动态。
 - `sources.favoriteFolders`：要扫描的收藏夹 `media_id` 数组。
