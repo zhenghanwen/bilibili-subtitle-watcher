@@ -41,7 +41,7 @@ Copy-Item config.example.json bili-sub.config.json
 - `sources.followingFeed`：扫描关注动态。
 - `sources.favoriteFolders`：收藏夹 ID 数组。
 - `maxPerRun`：单次处理上限。
-- `includeAllPages`：处理多 P。
+- `includeAllPages`：是否处理多 P。
 - `noSubtitleRetryHours`：无字幕复查时间。
 
 ## 常用命令
