@@ -159,6 +159,33 @@ function parseTabbitJson(stdout) {
   return null;
 }
 
+function readTabbitResource(cli, task, resourceId) {
+  let offset = 0;
+  let text = '';
+  for (let i = 0; i < 50; i += 1) {
+    const response = runProcess(cli, [
+      'resource',
+      '--task', task,
+      '--resource', resourceId,
+      '--offset', String(offset),
+      '--max-bytes', '65536'
+    ]);
+    if (response.error) fail(`读取 Tabbit 资源失败：${response.error.message}`);
+    const payload = parseTabbitJson(response.stdout);
+    if (!payload) fail('Tabbit 资源返回中没有可解析的 JSON。');
+    text += payload.data || '';
+    if (payload.eof) {
+      try { return JSON.parse(text); }
+      catch (error) { fail(`解析 Tabbit 资源 JSON 失败：${error.message}`); }
+    }
+    if (typeof payload.nextOffset !== 'number' || payload.nextOffset <= offset) {
+      fail('Tabbit 资源分页缺少有效的 nextOffset。');
+    }
+    offset = payload.nextOffset;
+  }
+  fail('Tabbit 资源分页超过最大读取次数。');
+}
+
 function tabbitRun(program, config, options = {}) {
   const cli = path.resolve(config.tabbitCli);
   if (!fs.existsSync(cli)) fail(`找不到 Tabbit CLI：${cli}。请在 config.json 设置 tabbitCli。`);
@@ -179,18 +206,29 @@ function tabbitRun(program, config, options = {}) {
     payload = parseTabbitJson(receipt.stdout) || payload;
   }
 
-  runProcess(cli, ['finish', '--task', task]);
+  let value;
+  try {
+    if (!payload) {
+      console.error(result.stdout);
+      console.error(result.stderr);
+      fail('Tabbit 没有返回可解析的 JSON。');
+    }
+    if (payload.status === 'failed' || payload.status === 'interrupted') {
+      console.error(JSON.stringify(payload, null, 2));
+      fail(`Tabbit 程序执行失败：${payload.result?.error || payload.error || payload.status}`);
+    }
 
-  if (!payload) {
-    console.error(result.stdout);
-    console.error(result.stderr);
-    fail('Tabbit 没有返回可解析的 JSON。');
+    const resultPayload = payload.result || {};
+    const resourceId = resultPayload.resourceId || resultPayload.resource?.resourceId;
+    if (resourceId) {
+      value = readTabbitResource(cli, task, resourceId);
+    } else {
+      value = resultPayload.value ?? resultPayload.result?.value ?? payload.value;
+    }
+  } finally {
+    runProcess(cli, ['finish', '--task', task]);
   }
-  if (payload.status === 'failed' || payload.status === 'interrupted') {
-    console.error(JSON.stringify(payload, null, 2));
-    fail(`Tabbit 程序执行失败：${payload.result?.error || payload.error || payload.status}`);
-  }
-  const value = payload.result?.value ?? payload.result?.result?.value ?? payload.value;
+
   if (!value) {
     console.error(JSON.stringify(payload, null, 2));
     fail('Tabbit 返回中缺少 result.value。');
