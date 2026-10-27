@@ -525,8 +525,7 @@ const args = parseArgs(process.argv.slice(2));
 const command = args._[0] || 'help';
 if (args.help || command === 'help') {
   printHelp();
-}
-else {
+} else {
   const config = loadConfig(args);
   if (command === 'doctor') commandDoctor(config);
   else if (command === 'login') commandLogin(config);
