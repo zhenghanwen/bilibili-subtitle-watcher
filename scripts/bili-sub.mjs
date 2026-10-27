@@ -27,7 +27,7 @@ function detectTabbitCli() {
         path.join(process.env.LOCALAPPDATA || path.join(home, 'AppData', 'Local'), 'Tabbit', 'LocalAgent', 'bin', 'tabbit-cli.exe'),
         path.join(home, 'AppData', 'Local', 'Tabbit', 'LocalAgent', 'bin', 'tabbit-cli.exe')
       ]
-    ? [
+    : [
         path.join(home, '.local', 'bin', 'tabbit-cli'),
         '/usr/local/bin/tabbit-cli',
         '/opt/tabbit/tabbit-cli'
@@ -129,7 +129,7 @@ function loadConfig(args) {
   config.outputDir = resolveProjectPath(config.outputDir, configDir);
   config.statePath = path.join(config.dataDir, 'state.json');
   config.logPath = path.join(config.dataDir, 'last-run.json');
-  if (process.env.BILI_SUB_OUTPUT_DIR) config.outputDir = path.resolve(process.env.BILI_SUB_OUTPUT_DIR);
+  if (process.env.BILI_SUB_OUTPUT_DIR) config.outputDir = path.resolve(process.env.BILI_SUB_CONFIG);
   if (args.output) config.outputDir = path.resolve(args.output);
   if (args.folders?.length) config.sources.favoriteFolders = args.folders;
   if (typeof args.limit === 'number' && Number.isFinite(args.limit)) config.maxPerRun = args.limit;
@@ -251,7 +251,7 @@ function formatDate(ts) {
 }
 
 function safeName(value, fallback = 'bilibili-subtitle') {
-  return String(value || fallback).replace(/[\\/:*?"<>|-]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 120) || fallback;
+  return String(value || fallback).replace(/[\/:*?"<>|-]/g, '_').replace(/\s+/g, ' ').trim().slice(0, 120) || fallback;
 }
 
 function quoteYaml(value) {
@@ -280,7 +280,7 @@ function buildNote(result) {
   lines.push('---');
   lines.push(`title: ${quoteYaml(meta.title)}`);
   lines.push(`bvid: ${quoteYaml(meta.bvid)}`);
-  lines.push(`aid: ${quoteYaq(meta.aid)}`);
+  lines.push(`aid: ${quoteYaml(meta.aid)}`);
   lines.push(`url: ${quoteYaml(`https://www.bilibili.com/video/${meta.bvid}`)}`);
   lines.push(`author: ${quoteYaml(meta.author)}`);
   lines.push(`uid: ${quoteYaml(meta.uid)}`);
