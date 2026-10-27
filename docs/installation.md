@@ -18,7 +18,7 @@ npm --version
 ## 2. 获取项目
 
 ```bash
-git clone https://github.com/<your-name>/bilibili-subtitle-watcher.git
+git clone https://github.com/zhenghanwen/bilibili-subtitle-watcher.git
 cd bilibili-subtitle-watcher
 ```
 

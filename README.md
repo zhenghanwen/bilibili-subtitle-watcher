@@ -30,7 +30,7 @@
 克隆后进入项目目录：
 
 ```bash
-git clone https://github.com/<your-name>/bilibili-subtitle-watcher.git
+git clone https://github.com/zhenghanwen/bilibili-subtitle-watcher.git
 cd bilibili-subtitle-watcher
 ```
 
