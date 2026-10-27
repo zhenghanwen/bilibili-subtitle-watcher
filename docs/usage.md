@@ -113,7 +113,7 @@ bili-sub list
 | `outputDir` | Markdown/SRT/TXT 输出目录。 |
 | `dataDir` | 状态库和最后一次运行结果目录。 |
 | `tabbitCli` | Tabbit CLI 路径；留空自动探测。 |
-| `maxPerRun` | 单次处理上限。
+| `maxPerRun` | 单次处理上限。 |
 | `feedPages` | 关注动态翻页数量。 |
 | `favoritesPageSize` | 收藏夹每页数量。 |
 | `includeAllPages` | 是否处理多 P。 |
@@ -121,7 +121,7 @@ bili-sub list
 | `timeoutMs` | Tabbit 单次程序超时。 |
 | `writeSrt` | 是否生成 SRT。 |
 | `writeTxt` | 是否生成 TXT。 |
-| `writeRawJson` | 调试用，是否保存原始字幕 JSON。 |
+| `writeRawJson` | 是否保存原始字幕 JSON，主要用于调试。 |
 | `sources.followingFeed` | `run` 是否扫描关注动态。 |
 | `sources.favoriteFolders` | `run` 要扫描的收藏夹 ID。 |
 | `noSubtitleRetryHours` | 无字幕视频的复查间隔。 |

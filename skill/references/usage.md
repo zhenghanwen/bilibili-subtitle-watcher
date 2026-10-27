@@ -41,13 +41,13 @@ Copy-Item config.example.json bili-sub.config.json
 - `sources.followingFeed`：扫描关注动态。
 - `sources.favoriteFolders`：收藏夹 ID 数组。
 - `maxPerRun`：单次处理上限。
-- `includeAllPages`：是否处理多 P。
+- `includeAllPages`：处理多 P。
 - `noSubtitleRetryHours`：无字幕复查时间。
 
 ## 常用命令
 
 ```bash
-bili-sub video BV1dz41644ELm
+bili-sub video BV1dz4164ELm
 bili-sub feed --limit 3 --feed-pages 1
 bili-sub favorites --folder 123456789 --limit 5
 bili-sub run
